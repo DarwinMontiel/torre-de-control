@@ -40,7 +40,7 @@
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@types/ioredis-mock": "8.2.8",
-    "@types/node": "24.19.2",
+    "@types/node": "26.6.6",
     "@types/pg": "8.23.1",
     "@types/ws": "8.18.2",
     "@vitest/coverage-v8": "5.1.0",
@@ -50,7 +50,7 @@
     "ioredis-mock": "8.13.1",
     "pg-mem": "3.0.14",
     "prettier": "3.10.1",
-    "typescript": "6.0.3",
+    "typescript": "7.0.2",
     "typescript-eslint": "8.72.2",
     "vite": "8.3.8",
     "vitest": "5.1.0"
