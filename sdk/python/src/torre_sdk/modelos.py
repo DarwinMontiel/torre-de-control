@@ -87,7 +87,7 @@ class Evento:
 
 
 class LatidoColmena(Protocol):
-    """Forma del ``Heartbeat`` de colmena-rpa (``rpa_orchestrator.persistence.repository``)."""
+    """Forma del ``Heartbeat`` de colmena-rpa (``colmena_rpa.persistence.repository``)."""
 
     @property
     def worker_id(self) -> str: ...
