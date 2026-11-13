@@ -1,11 +1,11 @@
 # API de la Torre de Control. Node 24 ejecuta TypeScript de forma nativa (ADR-0001):
 # no hay paso de compilación, la imagen lleva el código fuente tal cual se probó.
-FROM node:24-alpine AS dependencias
+FROM node:25-alpine AS dependencias
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts --no-audit --no-fund
 
-FROM node:24-alpine
+FROM node:25-alpine
 ENV NODE_ENV=production \
     TORRE_PUERTO=3000
 WORKDIR /app
