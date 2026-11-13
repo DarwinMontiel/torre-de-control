@@ -14,6 +14,12 @@ updates:
       # ioredis 6 cuando ioredis-mock lo soporte, para no romper las pruebas sin servicios.
       - dependency-name: ioredis
         update-types: ['version-update:semver-major']
+      # typescript-eslint exige typescript < 6.1; el salto de TypeScript se hace a mano cuando lo soporte.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
+      # Los tipos de Node siguen a la versión que corre en producción (Node 24 LTS).
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
   - package-ecosystem: pip
     directory: /sdk/python
     schedule: { interval: weekly }
