@@ -1,0 +1,10 @@
+line-length = 120
+target-version = "py313"
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "N"]
+# RUF001-003: tildes y signos del español en textos.
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[lint.isort]
+known-third-party = ["torre_sdk", "pika"]
