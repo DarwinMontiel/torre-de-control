@@ -1,20 +1,36 @@
+# Actualizaciones agrupadas: un solo PR por ecosistema. Dependabot redacta los títulos en
+# inglés ("bump X from A to B"); al fusionar se hace squash con un mensaje en español.
 version: 2
 updates:
   - package-ecosystem: npm
     directory: /
     schedule: { interval: weekly }
+    commit-message: { prefix: 'build(deps)', prefix-development: 'build(deps-dev)' }
     groups:
       dependencias-npm:
         patterns: ['*']
+    ignore:
+      # ioredis-mock (dobles de prueba) declara ioredis ^5 como dependencia par. Se sube a
+      # ioredis 6 cuando ioredis-mock lo soporte, para no romper las pruebas sin servicios.
+      - dependency-name: ioredis
+        update-types: ['version-update:semver-major']
   - package-ecosystem: pip
     directory: /sdk/python
     schedule: { interval: weekly }
+    commit-message: { prefix: 'build(sdk)' }
   - package-ecosystem: docker
     directory: /
-    schedule: { interval: weekly }
+    schedule: { interval: monthly }
+    commit-message: { prefix: 'build(docker)' }
+    ignore:
+      # Solo versiones LTS de Node (pares). El salto a la siguiente LTS se hace a mano, junto
+      # con `engines` en package.json y la versión del CI.
+      - dependency-name: node
+        update-types: ['version-update:semver-major']
   - package-ecosystem: github-actions
     directory: /
-    schedule: { interval: weekly }
+    schedule: { interval: monthly }
+    commit-message: { prefix: 'ci(deps)' }
     groups:
       acciones:
         patterns: ['*']
