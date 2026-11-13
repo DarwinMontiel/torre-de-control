@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Torre de Control</title>
+    <meta name="description" content="Monitoreo en tiempo real de bots RPA: colas, bots, servidores y alertas." />
+    <meta name="color-scheme" content="light dark" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230b3954'/%3E%3Cpath d='M16 16 L16 4 A12 12 0 0 1 27 12 Z' fill='%2334d399'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23fff'/%3E%3C/svg%3E"
+    />
+    <script>
+      // Aplica el tema guardado antes de pintar para evitar el destello.
+      try {
+        const t = localStorage.getItem('torre.tema');
+        if (t === 'claro' || t === 'oscuro') document.documentElement.dataset.tema = t;
+      } catch {}
+    </script>
+    <link rel="stylesheet" href="./estilos.css" />
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <header class="barra">
+      <a class="marca" href="#/resumen" aria-label="Torre de Control, ir al resumen">
+        <svg class="radar" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="14" class="radar-fondo" />
+          <circle cx="16" cy="16" r="9" class="radar-anillo" />
+          <path d="M16 16 L16 2 A14 14 0 0 1 29.3 11.7 Z" class="radar-barrido" />
+          <circle cx="16" cy="16" r="2.2" class="radar-centro" />
+        </svg>
+        <span>
+          <strong>Torre de Control</strong>
+          <small id="subtitulo">Monitoreo de bots RPA</small>
+        </span>
+      </a>
+      <nav id="nav" aria-label="Pantallas"></nav>
+      <div class="barra-acciones">
+        <span id="conexion" class="conexion" role="status">Conectando…</span>
+        <button id="tema" class="boton-icono" type="button" aria-label="Cambiar tema claro u oscuro" title="Cambiar tema">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <section id="demo" class="demo" hidden aria-label="Historia de la demo"></section>
+
+    <main id="contenido" tabindex="-1"></main>
+
+    <footer class="pie">
+      <span>Torre de Control · datos <strong id="pie-modo">en vivo</strong></span>
+      <span id="pie-hora"></span>
+      <a href="https://github.com/DarwinMontiel/torre-de-control">Código fuente</a>
+    </footer>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
