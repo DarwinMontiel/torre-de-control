@@ -1,0 +1,7 @@
+dist/
+coverage/
+node_modules/
+sdk/
+package-lock.json
+docs/imagenes/
+*.sql

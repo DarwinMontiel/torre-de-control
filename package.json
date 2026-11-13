@@ -1,0 +1,58 @@
+{
+  "name": "torre-de-control",
+  "version": "1.0.0",
+  "description": "Monitoreo en tiempo real de bots RPA: colas RabbitMQ, latidos, servidores y alertas.",
+  "license": "MIT",
+  "author": "Darwin Montiel Mora",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev:api": "node --watch src/api/main.ts",
+    "dev:tablero": "vite",
+    "dev:demo": "vite --mode demo",
+    "start": "node src/api/main.ts",
+    "migrar": "node src/api/adaptadores/postgres/cli-migrar.ts",
+    "build": "vite build",
+    "build:demo": "vite build --mode demo",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write . && eslint . --fix",
+    "test": "vitest run",
+    "test:cobertura": "vitest run --coverage",
+    "test:integracion": "vitest run --config vitest.integracion.config.ts",
+    "captura": "node scripts/capturar.ts"
+  },
+  "dependencies": {
+    "@fastify/swagger": "9.9.3",
+    "@fastify/swagger-ui": "6.1.3",
+    "@fastify/type-provider-typebox": "6.3.0",
+    "@fastify/websocket": "11.3.7",
+    "ajv-i18n": "4.2.0",
+    "fastify": "5.12.8",
+    "ioredis": "5.11.1",
+    "pg": "8.23.1",
+    "typebox": "1.4.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/ioredis-mock": "8.2.8",
+    "@types/node": "24.19.2",
+    "@types/pg": "8.23.1",
+    "@types/ws": "8.18.2",
+    "@vitest/coverage-v8": "5.1.0",
+    "eslint": "10.14.0",
+    "globals": "17.14.0",
+    "happy-dom": "21.0.4",
+    "ioredis-mock": "8.13.1",
+    "pg-mem": "3.0.14",
+    "prettier": "3.10.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.2",
+    "vite": "8.3.8",
+    "vitest": "5.1.0"
+  }
+}
