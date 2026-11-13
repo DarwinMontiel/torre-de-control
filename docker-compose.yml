@@ -1,0 +1,94 @@
+# Torre de Control completa: API + vigía, tablero, PostgreSQL, Redis, RabbitMQ y siete bots simulados.
+#   docker compose up --build -d
+#   Tablero:  http://localhost:8080      API/OpenAPI: http://localhost:3000/docs
+#   RabbitMQ: http://localhost:15672 (guest/guest)
+# Los puertos del host se cambian con PUERTO_API, PUERTO_TABLERO, PUERTO_POSTGRES, etc.
+name: torre-de-control
+
+x-entorno-torre: &entorno-torre
+  TORRE_DATABASE_URL: postgres://torre:torre@postgres:5432/torre
+  TORRE_REDIS_URL: redis://redis:6379
+  TORRE_FUENTE_COLAS: rabbitmq
+  TORRE_RABBITMQ_URL: http://rabbitmq:15672
+  TORRE_RABBITMQ_USUARIO: guest
+  TORRE_RABBITMQ_CLAVE: guest
+  TORRE_TOKEN_BOTS: ${TORRE_TOKEN_BOTS:-token-bots-solo-para-desarrollo}
+  TORRE_TOKEN_ADMIN: ${TORRE_TOKEN_ADMIN:-token-admin-solo-para-desarrollo}
+  TORRE_SEMBRAR_MACONDO: 'true'
+  TORRE_WEBHOOK_URL: ${TORRE_WEBHOOK_URL:-}
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: torre
+      POSTGRES_PASSWORD: torre
+      POSTGRES_DB: torre
+    ports: ['${PUERTO_POSTGRES:-5432}:5432']
+    volumes: ['pgdata:/var/lib/postgresql/data']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U torre']
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports: ['${PUERTO_REDIS:-6379}:6379']
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    ports: ['${PUERTO_AMQP:-5672}:5672', '${PUERTO_RABBITMQ_WEB:-15672}:15672']
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
+      interval: 10s
+      retries: 12
+
+  migraciones:
+    build: .
+    command: ['node', 'src/api/adaptadores/postgres/cli-migrar.ts', '--sembrar']
+    environment: *entorno-torre
+    depends_on:
+      postgres: { condition: service_healthy }
+    restart: 'no'
+
+  api:
+    build: .
+    environment:
+      <<: *entorno-torre
+      TORRE_NODO: api-1
+    ports: ['${PUERTO_API:-3000}:3000']
+    depends_on:
+      migraciones: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+    restart: unless-stopped
+
+  tablero:
+    build:
+      context: .
+      dockerfile: deploy/tablero/Dockerfile
+    ports: ['${PUERTO_TABLERO:-8080}:8080']
+    depends_on:
+      api: { condition: service_healthy }
+    restart: unless-stopped
+
+  simulador:
+    build:
+      context: .
+      dockerfile: simulador/Dockerfile
+    environment:
+      TORRE_URL: http://api:3000
+      TORRE_TOKEN_BOTS: ${TORRE_TOKEN_BOTS:-token-bots-solo-para-desarrollo}
+      SIMULADOR_AMQP_URL: amqp://guest:guest@rabbitmq:5672/%2F
+      SIMULADOR_CAOS: ${SIMULADOR_CAOS:-true}
+    depends_on:
+      api: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+    restart: unless-stopped
+
+volumes:
+  pgdata:
