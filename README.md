@@ -6,7 +6,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-estricto-3178C6?logo=typescript&logoColor=white)
 ![Fastify](https://img.shields.io/badge/Fastify-000000?logo=fastify&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white)
-[![Licencia MIT](https://img.shields.io/badge/licencia-MIT-0d9488)](LICENSE)
+[![Licencia MIT](https://img.shields.io/badge/licencia-MIT-0a6e48)](LICENSE)
 
 **Monitoreo en tiempo real de bots RPA.** Lee las colas de RabbitMQ, cataloga servidores y bots,
 recibe sus latidos y dispara alertas con escalamiento e inhibición: la cola que crece, la DLQ que
