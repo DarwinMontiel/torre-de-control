@@ -1,74 +1,94 @@
-/* Torre de Control · tablero. Sin frameworks: tokens de color, rejillas y nada más. */
+/* Torre de Control · tablero. Sin frameworks: tokens de color, rejillas y nada más.
+   Identidad propia: sala de control aéreo. Oscuro: casi negro con verde de radar.
+   Claro: «carta de navegación» en gris verdoso. Rótulos en tipografía tipo DIN
+   (Bahnschrift en Windows), cifras en monoespaciada y esquinas rectas con marcas de
+   visor. Contraste de texto verificado (WCAG AA) en ambos temas. */
 
 :root {
-  --fondo: #f4f6f8;
-  --superficie: #ffffff;
-  --superficie-2: #eef2f5;
-  --borde: #d8dee4;
-  --texto: #14202b;
-  --texto-tenue: #5b6875;
-  --marca: #0b3954;
-  --acento: #0e7c86;
-  --ok: #157f3b;
-  --ok-fondo: #e3f4e8;
-  --aviso: #9a5b00;
-  --aviso-fondo: #fdf0d9;
+  --fondo: #eef2ef;
+  --superficie: #fbfdfc;
+  --superficie-2: #e6ede9;
+  --borde: #c9d6cf;
+  --texto: #0d1a14;
+  --texto-tenue: #4a5e55;
+  --marca: #0a2e22;
+  --acento: #0a6e48;
+  --ok: #12693a;
+  --ok-fondo: #dff3e7;
+  --aviso: #8a4f00;
+  --aviso-fondo: #fdeed3;
   --mal: #b42318;
   --mal-fondo: #fde7e5;
-  --neutro: #475467;
-  --neutro-fondo: #eaecf0;
-  --spark: #0e7c86;
-  --spark-area: rgb(14 124 134 / 0.14);
-  --sombra: 0 1px 2px rgb(16 24 40 / 0.06), 0 1px 3px rgb(16 24 40 / 0.08);
-  --radio: 10px;
+  --neutro: #46574f;
+  --neutro-fondo: #e3e9e6;
+  --spark: #0a6e48;
+  --spark-area: rgb(10 110 72 / 0.14);
+  --rejilla: rgb(10 46 34 / 0.06);
+  --sombra: 0 1px 0 rgb(13 26 20 / 0.06);
+  --radio: 2px;
+  --barra-fondo: #0a1f17;
+  --barra-borde: #163a2c;
+  --barra-texto: #e6f4ec;
+  --barra-tenue: #9cc2b0;
+  --radar: #39d98a;
+  --letra-rotulo: Bahnschrift, 'DIN Alternate', 'DIN Condensed', 'Roboto Condensed', 'Arial Narrow', sans-serif;
+  --letra-datos: 'Cascadia Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema='claro']) {
-    --fondo: #0b1117;
-    --superficie: #121a23;
-    --superficie-2: #18222d;
-    --borde: #263342;
-    --texto: #e6edf3;
-    --texto-tenue: #93a1b0;
-    --marca: #7cc4e4;
-    --acento: #2ec4b6;
-    --ok: #4ade80;
-    --ok-fondo: rgb(74 222 128 / 0.12);
-    --aviso: #fbbf24;
-    --aviso-fondo: rgb(251 191 36 / 0.12);
-    --mal: #f87171;
-    --mal-fondo: rgb(248 113 113 / 0.14);
-    --neutro: #a3b1c2;
-    --neutro-fondo: rgb(163 177 194 / 0.12);
-    --spark: #2ec4b6;
-    --spark-area: rgb(46 196 182 / 0.16);
-    --sombra: 0 1px 2px rgb(0 0 0 / 0.4);
+    --fondo: #05090c;
+    --superficie: #0a1116;
+    --superficie-2: #0f1a20;
+    --borde: #1b2b31;
+    --texto: #dcefe6;
+    --texto-tenue: #86a598;
+    --marca: #39d98a;
+    --acento: #39d98a;
+    --ok: #39d98a;
+    --ok-fondo: #0f2a1d;
+    --aviso: #ffb547;
+    --aviso-fondo: #2a2214;
+    --mal: #ff6b6b;
+    --mal-fondo: #2b1517;
+    --neutro: #9fb3ab;
+    --neutro-fondo: #172024;
+    --spark: #39d98a;
+    --spark-area: rgb(57 217 138 / 0.14);
+    --rejilla: rgb(57 217 138 / 0.05);
+    --sombra: none;
+    --barra-fondo: #070d10;
+    --barra-borde: #1b2b31;
+    --barra-tenue: #86a598;
     color-scheme: dark;
   }
 }
 
 :root[data-tema='oscuro'] {
-  --fondo: #0b1117;
-  --superficie: #121a23;
-  --superficie-2: #18222d;
-  --borde: #263342;
-  --texto: #e6edf3;
-  --texto-tenue: #93a1b0;
-  --marca: #7cc4e4;
-  --acento: #2ec4b6;
-  --ok: #4ade80;
-  --ok-fondo: rgb(74 222 128 / 0.12);
-  --aviso: #fbbf24;
-  --aviso-fondo: rgb(251 191 36 / 0.12);
-  --mal: #f87171;
-  --mal-fondo: rgb(248 113 113 / 0.14);
-  --neutro: #a3b1c2;
-  --neutro-fondo: rgb(163 177 194 / 0.12);
-  --spark: #2ec4b6;
-  --spark-area: rgb(46 196 182 / 0.16);
-  --sombra: 0 1px 2px rgb(0 0 0 / 0.4);
+  --fondo: #05090c;
+  --superficie: #0a1116;
+  --superficie-2: #0f1a20;
+  --borde: #1b2b31;
+  --texto: #dcefe6;
+  --texto-tenue: #86a598;
+  --marca: #39d98a;
+  --acento: #39d98a;
+  --ok: #39d98a;
+  --ok-fondo: #0f2a1d;
+  --aviso: #ffb547;
+  --aviso-fondo: #2a2214;
+  --mal: #ff6b6b;
+  --mal-fondo: #2b1517;
+  --neutro: #9fb3ab;
+  --neutro-fondo: #172024;
+  --spark: #39d98a;
+  --spark-area: rgb(57 217 138 / 0.14);
+  --rejilla: rgb(57 217 138 / 0.05);
+  --sombra: none;
+  --barra-fondo: #070d10;
+  --barra-borde: #1b2b31;
+  --barra-tenue: #86a598;
   color-scheme: dark;
 }
 
@@ -95,14 +115,14 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* Cuadrícula de pantalla de radar. */
+  background-image:
+    linear-gradient(var(--rejilla) 1px, transparent 1px), linear-gradient(90deg, var(--rejilla) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
 code {
-  font:
-    0.85em/1.4 ui-monospace,
-    'Cascadia Code',
-    Consolas,
-    monospace;
+  font: 0.85em/1.4 var(--letra-datos);
 }
 
 a {
@@ -133,27 +153,33 @@ a {
   gap: 16px;
   flex-wrap: wrap;
   padding: 10px 24px;
-  background: var(--superficie);
-  border-bottom: 1px solid var(--borde);
+  background: var(--barra-fondo);
+  color: var(--barra-texto);
+  border-bottom: 1px solid var(--barra-borde);
   position: sticky;
   top: 0;
   z-index: 5;
+}
+.barra :focus-visible {
+  outline-color: var(--radar);
 }
 
 .marca {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--texto);
+  color: var(--barra-texto);
   text-decoration: none;
 }
 .marca strong {
   display: block;
-  font-size: 1.05rem;
-  letter-spacing: 0.01em;
+  font-family: var(--letra-rotulo);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 .marca small {
-  color: var(--texto-tenue);
+  color: var(--barra-tenue);
 }
 
 .radar {
@@ -161,20 +187,20 @@ a {
   height: 34px;
 }
 .radar-fondo {
-  fill: var(--marca);
+  fill: #0d3b2b;
 }
 .radar-anillo {
   fill: none;
-  stroke: rgb(255 255 255 / 0.25);
+  stroke: rgb(57 217 138 / 0.4);
 }
 .radar-barrido {
-  fill: #34d399;
+  fill: var(--radar);
   opacity: 0.75;
   transform-origin: 16px 16px;
   animation: barrido 4s linear infinite;
 }
 .radar-centro {
-  fill: #fff;
+  fill: #dcefe6;
 }
 @keyframes barrido {
   to {
@@ -194,29 +220,34 @@ nav {
   flex: 1;
 }
 nav a {
-  color: var(--texto-tenue);
+  color: var(--barra-tenue);
   text-decoration: none;
   padding: 6px 12px;
-  border-radius: 999px;
+  border-radius: var(--radio);
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-weight: 500;
+  font-family: var(--letra-rotulo);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 nav a:hover {
-  background: var(--superficie-2);
-  color: var(--texto);
+  background: rgb(255 255 255 / 0.06);
+  color: var(--barra-texto);
 }
 nav a[aria-current='page'] {
-  background: var(--marca);
-  color: var(--superficie);
+  background: var(--radar);
+  color: #05090c;
 }
 
 .insignia {
+  font-family: var(--letra-datos);
   font-size: 0.75rem;
   min-width: 20px;
   padding: 0 6px;
-  border-radius: 999px;
+  border-radius: var(--radio);
   text-align: center;
   font-weight: 700;
 }
@@ -236,11 +267,11 @@ nav a[aria-current='page'] {
 }
 
 .conexion {
-  font-size: 0.85rem;
+  font: 0.8rem/1.4 var(--letra-datos);
   padding: 4px 10px;
-  border-radius: 999px;
-  background: var(--neutro-fondo);
-  color: var(--neutro);
+  border-radius: var(--radio);
+  background: rgb(255 255 255 / 0.06);
+  color: var(--barra-tenue);
 }
 .conexion::before {
   content: '';
@@ -252,23 +283,23 @@ nav a[aria-current='page'] {
   background: currentColor;
 }
 .conexion[data-estado='en_vivo'] {
-  background: var(--ok-fondo);
-  color: var(--ok);
+  background: rgb(57 217 138 / 0.12);
+  color: var(--radar);
 }
 .conexion[data-estado='reconectando'] {
-  background: var(--aviso-fondo);
-  color: var(--aviso);
+  background: rgb(255 181 71 / 0.12);
+  color: #ffb547;
 }
 .conexion[data-estado='demo'] {
-  background: var(--superficie-2);
-  color: var(--acento);
+  background: rgb(57 217 138 / 0.08);
+  color: var(--radar);
 }
 
 .boton-icono {
   border: 1px solid var(--borde);
   background: var(--superficie);
   color: var(--texto);
-  border-radius: 8px;
+  border-radius: var(--radio);
   width: 36px;
   height: 36px;
   display: grid;
@@ -281,14 +312,23 @@ nav a[aria-current='page'] {
   fill: currentColor;
 }
 
+.barra .boton-icono {
+  background: transparent;
+  border-color: var(--barra-borde);
+  color: var(--barra-texto);
+}
+
 .boton {
   border: 0;
   background: var(--marca);
   color: var(--superficie);
   padding: 7px 14px;
-  border-radius: 8px;
+  border-radius: var(--radio);
   font: inherit;
+  font-family: var(--letra-rotulo);
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   cursor: pointer;
 }
 .boton:disabled {
@@ -308,8 +348,10 @@ nav a[aria-current='page'] {
   gap: 24px;
   align-items: center;
   padding: 16px 24px;
-  /* La franja de la historia es siempre nocturna, en ambos temas. */
-  background: linear-gradient(100deg, #0b2537, #0b3954 55%, #0e5a6e);
+  /* La franja de la historia es siempre nocturna, en ambos temas: pantalla de radar. */
+  background:
+    radial-gradient(circle at 92% 50%, rgb(57 217 138 / 0.14), transparent 40%),
+    linear-gradient(100deg, #04100b, #0a2e22 55%, #0d3b2b);
   color: #fff;
 }
 .demo[hidden] {
@@ -317,6 +359,7 @@ nav a[aria-current='page'] {
 }
 .demo-etiqueta {
   display: block;
+  font-family: var(--letra-rotulo);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -324,9 +367,12 @@ nav a[aria-current='page'] {
   max-width: 220px;
 }
 .demo-hora {
+  font-family: var(--letra-datos);
   font-size: 2.4rem;
   font-variant-numeric: tabular-nums;
   line-height: 1.1;
+  color: var(--radar);
+  text-shadow: 0 0 18px rgb(57 217 138 / 0.35);
 }
 .demo-relato h2 {
   margin: 0 0 4px;
@@ -353,26 +399,28 @@ nav a[aria-current='page'] {
 .linea-tiempo-progreso {
   height: 100%;
   border-radius: 2px;
-  background: #34d399;
+  background: var(--radar);
   width: 0;
 }
+/* Cada hito es un punto de notificación de la ruta: un rombo. */
 .hito {
   position: absolute;
   top: 2px;
   width: 14px;
   height: 14px;
   margin-left: -7px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  background: #0b3954;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  border: 2px solid #dcefe6;
+  background: #0a2e22;
   cursor: pointer;
   padding: 0;
 }
 .hito-pasado {
-  background: #34d399;
+  background: var(--radar);
 }
 .hito-actual {
-  box-shadow: 0 0 0 4px rgb(52 211 153 / 0.45);
+  box-shadow: 0 0 0 4px rgb(57 217 138 / 0.45);
 }
 .demo-controles {
   display: flex;
@@ -389,12 +437,12 @@ nav a[aria-current='page'] {
 .demo-controles select {
   font: inherit;
   padding: 4px 6px;
-  border-radius: 6px;
+  border-radius: var(--radio);
   border: 0;
 }
 .demo .boton {
-  background: #fff;
-  color: #0b3954;
+  background: var(--radar);
+  color: #04100b;
 }
 .demo .boton-secundario {
   background: transparent;
@@ -417,8 +465,14 @@ main:focus {
   outline: none;
 }
 
+/* Marcas de visor en las esquinas: el sello de la torre. */
 .panel {
-  background: var(--superficie);
+  background:
+    linear-gradient(var(--acento), var(--acento)) top left / 14px 2px no-repeat,
+    linear-gradient(var(--acento), var(--acento)) top left / 2px 14px no-repeat,
+    linear-gradient(var(--acento), var(--acento)) bottom right / 14px 2px no-repeat,
+    linear-gradient(var(--acento), var(--acento)) bottom right / 2px 14px no-repeat,
+    var(--superficie);
   border: 1px solid var(--borde);
   border-radius: var(--radio);
   padding: 16px 18px;
@@ -426,14 +480,40 @@ main:focus {
   min-width: 0;
 }
 .panel h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 0 0 12px;
-  font-size: 1rem;
+  font-family: var(--letra-rotulo);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--texto-tenue);
+}
+.panel h2::before {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  background: var(--acento);
 }
 
+/* Seis indicadores: 6, 3 o 2 por fila, nunca uno solo colgando. */
 .kpis {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 12px;
+}
+@media (max-width: 1180px) {
+  .kpis {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 .kpi {
   background: var(--superficie);
@@ -445,16 +525,18 @@ main:focus {
 }
 .kpi h3 {
   margin: 0;
+  font-family: var(--letra-rotulo);
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--texto-tenue);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
 }
 .kpi-valor {
   margin: 4px 0 0;
+  font-family: var(--letra-datos);
   font-size: 1.9rem;
-  font-weight: 700;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 .kpi-detalle {
@@ -489,8 +571,11 @@ main:focus {
 }
 .tabla th {
   text-align: left;
+  font-family: var(--letra-rotulo);
   font-size: 0.78rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: var(--texto-tenue);
   border-bottom: 1px solid var(--borde);
   padding: 6px 8px;
@@ -504,6 +589,8 @@ main:focus {
 .tabla .num {
   text-align: right;
   white-space: nowrap;
+  font-family: var(--letra-datos);
+  font-size: 0.9rem;
 }
 .fila-aviso td {
   background: var(--aviso-fondo);
@@ -542,10 +629,13 @@ main:focus {
 
 .chip {
   display: inline-block;
+  font-family: var(--letra-rotulo);
   font-size: 0.75rem;
   font-weight: 600;
   padding: 2px 8px;
-  border-radius: 999px;
+  border-radius: var(--radio);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   white-space: nowrap;
 }
 .chip-ok {
@@ -597,7 +687,9 @@ main:focus {
 }
 .tarjeta h3 {
   margin: 0;
+  font-family: var(--letra-rotulo);
   font-size: 1.1rem;
+  letter-spacing: 0.04em;
 }
 .tarjeta p {
   margin: 4px 0;
@@ -614,6 +706,8 @@ main:focus {
 }
 .tarjeta dd {
   margin: 0;
+  font-family: var(--letra-datos);
+  font-size: 0.9rem;
   font-variant-numeric: tabular-nums;
 }
 
@@ -658,7 +752,7 @@ main:focus {
   align-items: flex-start;
   border: 1px solid var(--borde);
   border-left: 4px solid var(--aviso);
-  border-radius: 8px;
+  border-radius: var(--radio);
   padding: 10px 12px;
 }
 .alerta-critica {
@@ -690,6 +784,7 @@ main:focus {
   border-bottom: 1px solid var(--superficie-2);
 }
 .bitacora time {
+  font-family: var(--letra-datos);
   font-variant-numeric: tabular-nums;
   color: var(--texto-tenue);
 }
