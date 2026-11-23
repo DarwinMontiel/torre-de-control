@@ -148,6 +148,8 @@ export interface OpcionesDemo {
 
 /** Ciclo del vigía simulado: el de la API usa 5 s; aquí 15 s simulados bastan. */
 const CICLO_SIMULADO_SEG = 15;
+/** ×60: un minuto de la noche por segundo real. */
+const VELOCIDAD_POR_DEFECTO = 60;
 
 export class FuenteDemo implements FuenteDatos {
   readonly modo = 'demo' as const;
@@ -158,8 +160,11 @@ export class FuenteDemo implements FuenteDatos {
   #pendienteSeg = 0;
 
   constructor(op: OpcionesDemo) {
-    this.#op = { ...op };
-    this.#torre = FuenteDemo.torreEn(op.minutoInicial);
+    // Los valores vienen de la URL (?velocidad=, ?minuto=): uno no numérico congelaría la demo.
+    const velocidad = Number.isFinite(op.velocidad) && op.velocidad > 0 ? op.velocidad : VELOCIDAD_POR_DEFECTO;
+    const minuto = Number.isFinite(op.minutoInicial) ? Math.max(0, Math.min(DURACION_NOCHE_MIN, op.minutoInicial)) : 0;
+    this.#op = { ...op, velocidad, minutoInicial: minuto };
+    this.#torre = FuenteDemo.torreEn(minuto);
   }
 
   /** Torre recién creada y avanzada hasta `minuto`, ciclo a ciclo (para que la tendencia sea real). */

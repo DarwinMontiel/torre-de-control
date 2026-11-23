@@ -31,6 +31,7 @@
   --barra-texto: #e6f4ec;
   --barra-tenue: #9cc2b0;
   --radar: #39d98a;
+  --sobre-insignia: #fff;
   --letra-rotulo: Bahnschrift, 'DIN Alternate', 'DIN Condensed', 'Roboto Condensed', 'Arial Narrow', sans-serif;
   --letra-datos: 'Cascadia Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
   color-scheme: light;
@@ -61,6 +62,8 @@
     --barra-fondo: #070d10;
     --barra-borde: #1b2b31;
     --barra-tenue: #86a598;
+    /* Texto oscuro sobre rojo y ámbar claros: el blanco no llega a 4,5:1. */
+    --sobre-insignia: #05090c;
     color-scheme: dark;
   }
 }
@@ -89,6 +92,7 @@
   --barra-fondo: #070d10;
   --barra-borde: #1b2b31;
   --barra-tenue: #86a598;
+  --sobre-insignia: #05090c;
   color-scheme: dark;
 }
 
@@ -253,11 +257,11 @@ nav a[aria-current='page'] {
 }
 .insignia-mal {
   background: var(--mal);
-  color: #fff;
+  color: var(--sobre-insignia);
 }
 .insignia-aviso {
   background: var(--aviso);
-  color: #fff;
+  color: var(--sobre-insignia);
 }
 
 .barra-acciones {
@@ -834,8 +838,12 @@ main:focus {
   .rejilla-2 {
     grid-template-columns: 1fr;
   }
+  /* Hora, tipo y bot en una línea; el mensaje debajo, a todo el ancho. */
   .bitacora li {
-    grid-template-columns: 64px 1fr;
+    grid-template-columns: 64px auto 1fr;
+  }
+  .bitacora li .chip {
+    justify-self: start;
   }
   .bitacora li span:last-child {
     grid-column: 1 / -1;

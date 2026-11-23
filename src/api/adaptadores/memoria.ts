@@ -1,7 +1,7 @@
 /**
  * Adaptadores en memoria. Sirven para pruebas, para correr la API sin PostgreSQL
  * (`TORRE_ALMACEN=memoria`) y como referencia del comportamiento que deben cumplir los
- * adaptadores reales (ver tests/contratos).
+ * adaptadores reales (ver tests/api/contratos.test.ts).
  */
 import type { Instantanea } from '../../dominio/instantanea.ts';
 import type { Alerta, Bot, Catalogo, Cola, EventoBot, Latido, Servidor } from '../../dominio/tipos.ts';

@@ -174,6 +174,17 @@ describe('FuenteDemo', () => {
     await expect(demo.reconocer(activa?.id ?? '', 'Rebeca')).rejects.toThrow('La alerta ya no está activa.');
   });
 
+  it('ignora velocidad o minuto no numéricos de la URL en lugar de congelarse', () => {
+    const demo = new FuenteDemo(opciones({ velocidad: Number('xyz'), minutoInicial: Number('abc') }));
+    const { s, demos } = suscriptor();
+    demo.iniciar(s);
+    expect(demos.at(-1)?.velocidad).toBe(60);
+    const inicio = demos.at(-1)?.minuto ?? 0;
+    demo.tic();
+    expect((demos.at(-1)?.minuto ?? 0) - inicio).toBeCloseTo(1, 5);
+    expect(new FuenteDemo(opciones({ velocidad: -5, minutoInicial: -30 })).estadoDemo()).toMatchObject({ velocidad: 60 });
+  });
+
   it('detener cancela el intervalo', () => {
     const op = opciones();
     const demo = new FuenteDemo(op);

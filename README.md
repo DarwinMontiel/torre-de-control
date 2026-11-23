@@ -118,7 +118,7 @@ Ejemplo completo en [`sdk/python/ejemplos/bot_minimo.py`](sdk/python/ejemplos/bo
 
 | Comando                              | Qué cubre                                                                                |
 | ------------------------------------ | ---------------------------------------------------------------------------------------- |
-| `npm test`                           | 183 pruebas con Vitest: dominio, reglas, API (con dobles de Redis y PostgreSQL), tablero |
+| `npm test`                           | 184 pruebas con Vitest: dominio, reglas, API (con dobles de Redis y PostgreSQL), tablero |
 | `npm run test:cobertura`             | Cobertura con umbral (hoy ≈98 % de líneas)                                               |
 | `npm run test:integracion`           | Contra PostgreSQL, Redis y RabbitMQ reales                                               |
 | `npm run typecheck` · `npm run lint` | TypeScript estricto, ESLint y Prettier                                                   |

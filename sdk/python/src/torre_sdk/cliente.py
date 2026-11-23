@@ -109,10 +109,13 @@ class ClienteTorre:
             except ErrorTorre as e:
                 self._fallo(f"Eventos en espera ({self.eventos_pendientes}): {e}", e)
                 return False
+            # Se quitan solo los eventos de este lote que siguen al frente: otro hilo pudo
+            # enviarlos ya (el reenvío es idempotente por id) o el búfer pudo descartarlos por
+            # tamaño. Quitar «len(lote)» a ciegas borraría eventos que nunca salieron.
+            enviados = {e.id for e in lote}
             with self._candado:
-                for _ in lote:
-                    if self._pendientes:
-                        self._pendientes.popleft()
+                while self._pendientes and self._pendientes[0].id in enviados:
+                    self._pendientes.popleft()
 
     # --- Interno -----------------------------------------------------------------
 

@@ -61,22 +61,45 @@ const contenido = document.getElementById('contenido');
 const conexion = document.getElementById('conexion');
 let ultima: Instantanea | null = null;
 
+/**
+ * Repinta un contenedor solo si su HTML cambió y devuelve el foco al mismo control: la
+ * demo repinta cada segundo y, sin esto, quien navega con teclado pierde el foco.
+ */
+const pintado = new WeakMap<HTMLElement, string>();
+function reemplazar(contenedor: HTMLElement, nuevo: string): void {
+  if (pintado.get(contenedor) === nuevo) return;
+  const activo = document.activeElement;
+  let selector: string | null = null;
+  if (activo instanceof HTMLElement && activo !== contenedor && contenedor.contains(activo)) {
+    const href = activo.getAttribute('href');
+    const alerta = activo.dataset['reconocer'];
+    if (href) selector = `[href="${CSS.escape(href)}"]`;
+    else if (alerta) selector = `[data-reconocer="${CSS.escape(alerta)}"]`;
+  }
+  contenedor.innerHTML = nuevo;
+  pintado.set(contenedor, nuevo);
+  if (selector) contenedor.querySelector<HTMLElement>(selector)?.focus({ preventScroll: true });
+}
+
 function pintar(): void {
   const actual = pantallaActual();
   if (nav) {
-    nav.innerHTML = html`${PANTALLAS.map((p) => {
-      const i = ultima ? insignia(p.id, ultima) : null;
-      return html`<a href="#/${p.id}" ${p.id === actual ? html`aria-current="page"` : ''}
-        >${p.titulo}${i ? html`<span class="insignia insignia-${i.nivel}">${i.texto}</span>` : ''}</a
-      >`;
-    })}`.valor;
+    reemplazar(
+      nav,
+      html`${PANTALLAS.map((p) => {
+        const i = ultima ? insignia(p.id, ultima) : null;
+        return html`<a href="#/${p.id}" ${p.id === actual ? html`aria-current="page"` : ''}
+          >${p.titulo}${i ? html`<span class="insignia insignia-${i.nivel}">${i.texto}</span>` : ''}</a
+        >`;
+      })}`.valor,
+    );
   }
   if (!contenido) return;
   if (!ultima) {
-    contenido.innerHTML = html`<p class="vacio">Esperando la primera foto de la torre…</p>`.valor;
+    reemplazar(contenido, html`<p class="vacio">Esperando la primera foto de la torre…</p>`.valor);
     return;
   }
-  contenido.innerHTML = VISTAS[actual](ultima).valor;
+  reemplazar(contenido, VISTAS[actual](ultima).valor);
   const titulo = PANTALLAS.find((p) => p.id === actual)?.titulo ?? '';
   const n = ultima.resumen.alertas.criticas;
   document.title = `${n ? `(${n}) ` : ''}${titulo} · Torre de Control`;
@@ -84,8 +107,20 @@ function pintar(): void {
   if (pie) pie.textContent = `Foto de las ${horaBogotaSeg(ultima.generadaEn)} (hora de Bogotá)`;
 }
 
+// «Saltar al contenido» no debe cambiar el hash: la navegación usa #/pantalla y un
+// #contenido desconocido devolvería al resumen desde cualquier pantalla.
+document.querySelector('.saltar')?.addEventListener('click', (ev) => {
+  ev.preventDefault();
+  contenido?.focus();
+});
+
+// En pantallas angostas las pestañas se desplazan en horizontal: la actual debe quedar a la vista.
+const mostrarPestanaActual = () =>
+  nav?.querySelector('[aria-current="page"]')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+
 window.addEventListener('hashchange', () => {
   pintar();
+  mostrarPestanaActual();
   contenido?.focus({ preventScroll: true });
 });
 
@@ -155,3 +190,4 @@ fuente.iniciar({
   ...(alDemo ? { alDemo } : {}),
 });
 pintar();
+mostrarPestanaActual();

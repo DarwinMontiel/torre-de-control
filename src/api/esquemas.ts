@@ -1,7 +1,7 @@
 /**
  * Esquemas JSON (TypeBox) de la API. Validan la entrada, serializan la salida y
  * alimentan la documentación OpenAPI en /docs. Los tipos TypeScript del dominio y estos
- * esquemas se verifican entre sí en `tests/api/esquemas.test.ts`.
+ * esquemas se verifican entre sí en `tests/api/esquemas-config.test.ts`.
  */
 import { Type, type Static, type TSchema } from 'typebox';
 import { CODIGOS_REGLA, ESTADOS_ALERTA, ESTADOS_BOT, SEVERIDADES, SISTEMAS, TIPOS_COLA, TIPOS_EVENTO } from '../dominio/tipos.ts';

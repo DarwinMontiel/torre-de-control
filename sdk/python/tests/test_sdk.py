@@ -166,6 +166,29 @@ class TestCliente:
         assert cliente.vaciar_eventos() is True
         assert [e["mensaje"] for e in torre.peticiones[-1].cuerpo["eventos"]] == ["e1", "e2"]
 
+    def test_un_vaciado_concurrente_no_borra_eventos_que_no_salieron(self, torre: TorreFalsa) -> None:
+        cliente = ClienteTorre(torre.url, reintentos=0, dormir=sin_espera)
+        torre.respuestas = [500]
+        cliente.evento("bot-1", TipoEvento.INFO, "e0")  # queda pendiente
+        post_original = cliente._post
+        reentrado = False
+
+        def post_con_otro_hilo(ruta: str, cuerpo: dict[str, object]) -> dict[str, object]:
+            # Mientras este hilo envía [e0], otro (p. ej. el de latidos) envía e0 y llega e1.
+            nonlocal reentrado
+            if not reentrado:
+                reentrado = True
+                cliente.vaciar_eventos()
+                with cliente._candado:
+                    cliente._pendientes.append(Evento("bot-1", TipoEvento.INFO, "e1"))
+            return post_original(ruta, cuerpo)
+
+        cliente._post = post_con_otro_hilo  # type: ignore[method-assign]
+        cliente.vaciar_eventos()
+        mensajes = [p.cuerpo.get("mensaje") for p in torre.peticiones if p.ruta == "/api/v1/eventos"]
+        assert "e1" in mensajes
+        assert cliente.eventos_pendientes == 0
+
 
 class TestReportador:
     def crear(self, torre: TorreFalsa, **op: object) -> ReportadorLatidos:
