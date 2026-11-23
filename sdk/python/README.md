@@ -8,10 +8,10 @@ from torre_sdk import ClienteTorre, ReportadorLatidos
 
 torre = ClienteTorre("http://localhost:3000", token="...")
 reportador = ReportadorLatidos(torre, bot_id="obrera-01", procesos=["payment_agreement"], version="2.0.0")
-reportador.iniciar()                 # evento de inicio y latido cada 15 s en un hilo aparte
+reportador.iniciar()  # evento de inicio y latido cada 15 s en un hilo aparte
 with reportador.tarea("MAC-000123"):
-    registrar_acuerdo()              # una excepción cuenta como tarea fallida y se propaga
-reportador.detener()                 # anuncia STOPPING: la torre no lo toma como caída
+    registrar_acuerdo()  # una excepción cuenta como tarea fallida y se propaga
+reportador.detener()  # anuncia STOPPING: la torre no lo toma como caída
 ```
 
 - **Reportar nunca tumba al bot.** Si la torre no responde, el latido se pierde (el siguiente lo
